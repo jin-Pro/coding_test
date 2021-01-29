@@ -1,15 +1,12 @@
 import java.util.*;
 
-class Æ÷ÀÎÅÍ {
+class í¬ì¸í„° {
 
     PriorityQueue<Print> printList = new PriorityQueue<Print>();
 
     public int solution(int[] priorities, int location) {
-        //Á¤´äÀÇ È½¼ö¸¦ Ä«¿îÆ®ÇÒ º¯¼ö
-        int answer = 0;
-
-        //¿äÃ»ÇÑ ·ÎÄÉÀÌ¼ÇÀÇ °ªÀÌ ³ª°¬´Ù´Â Ç¥½Ã
-        boolean isOut = false;
+        //ì •ë‹µì˜ íšŸìˆ˜ë¥¼ ì¹´ìš´íŠ¸í•  ë³€ìˆ˜
+        int answer = 1;
 
         for(int i=0; i<priorities.length;i++) {
             printList.offer(new Print(i, priorities[i]));
