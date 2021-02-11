@@ -1,1 +1,1 @@
-# 2021-02-11 LeatCode Start. 1Day_1Commit
+# 2021-02-11 LeetCode Start. 1Day_1Commit
