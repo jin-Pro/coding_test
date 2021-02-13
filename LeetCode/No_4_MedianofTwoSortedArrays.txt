@@ -1,0 +1,89 @@
+public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+	        double answer = 0 ;
+	        
+	        int firstLength = nums1.length;
+	        int secondLength = nums2.length;
+	        
+	        int length = firstLength + secondLength;
+	        
+	        int[] nums3 = new int[length];
+	        
+	        System.arraycopy(nums1, 0, nums3, 0, firstLength);  
+	        System.arraycopy(nums2, 0, nums3, firstLength, secondLength);  
+	        
+	        Arrays.sort(nums3);
+	        
+	        int middleIndex = nums3.length / 2;
+	        
+	        answer = (nums3.length % 2 == 0) ? 
+	        		((double)(nums3[middleIndex-1] + nums3[middleIndex])) / 2 :
+	        			((double)nums3[middleIndex]);
+	        		
+	        return answer;
+	 }
+
+
+----------------------------------------------------------------------------------
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+----------------------------------------------------------------------------------
+
+Runtime: 3 ms, faster than 46.08% of Java online submissions for Median of Two Sorted Arrays.
+Memory Usage: 40.5 MB, less than 37.80% of Java online submissions for Median of Two Sorted Arrays.
+
+성적이 좋진 않지만 hard인 이유를 모르겠다. 문제를 잘못 읽은거 제외하고 바로 Accepted가됨
+
+----------------------------------------------------------------------------------
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+----------------------------------------------------------------------------------
+
+nums1과 nums2를 담을 배열 nums3를 만들기 위해서 nums1과 nums2의 길이를 구해서 nums3를 만들었다.
+그리고 arrayCopy를 사용하여 nums1과 nums2를 붙였고 정렬하였다.
+그리고 나서 nums3의 갯수를 판별한 후 중앙값을 구하였다.
+
+----------------------------------------------------------------------------------
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+----------------------------------------------------------------------------------
+
+내 코드보다 좋은 성적의 코드를 확인해보았다.
+
+
+public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        int n1 = nums1.length;
+        int n2 = nums2.length;
+        int arr[] = new int[n1+n2];		<< 여기까진 똑같네
+        
+        int i=0, j=0, k=0;
+        
+        while(i<n1 && j<n2){
+            if(nums1[i] < nums2[j]){
+                arr[k++] = nums1[i++];
+            }
+            else{
+                arr[k++] = nums2[j++];
+            }
+        }
+        ----------------------------------------- 데이터를 넣는과정에서 정렬을 하네
+        while(i< n1){
+            arr[k++] = nums1[i++];
+        }
+        while(j<n2){
+            arr[k++] = nums2[j++];
+        }
+        -----------------------------------------남은 배열에 있는 데이터값 이동
+        int n3 = arr.length;
+        if(n3%2 == 0){
+            int a = arr[(n3)/2];
+            int b = arr[((n3)/2)-1];
+            return (double)(a+b)/2;
+        }
+        else{
+            return (double)(arr[n3/2]);
+        }
+    }
+
+
+----------------------------------------------------------------------------------
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+----------------------------------------------------------------------------------
+
+결국 데이터를 저장하는 방법에 있어서 얼마나 시간을 줄이느냐 차이
