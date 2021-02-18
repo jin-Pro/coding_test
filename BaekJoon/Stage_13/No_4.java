@@ -4,43 +4,41 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class No_4 {
+public class No_4{
 	static StringBuilder sb = new StringBuilder();
-	static int answer = 0;
-	
-	public static void main(String[] args) throws NumberFormatException, IOException {
+
+	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		
-		int inputN = Integer.parseInt(br.readLine());
+		String input = br.readLine();
 		
-		int[] ches = new int[inputN];
+		String[] inputSplit = input.split(" ");
 		
-		put(ches,0);
+		int N = Integer.parseInt(inputSplit[0]);
+		int M = Integer.parseInt(inputSplit[1]);
 		
-		System.out.println(answer);
+		boolean[] visit = new boolean[N];
+		int[] num = new int[M];
+		
+		pick(visit,num,0,0);
+		
+		System.out.println(sb);
 	}
 	
-	public static void put(int[] ches,int depth) {
-		int length = ches.length;
-		
-		if(depth == length) {
-			answer ++;
-			return ;
+	public static void pick(boolean[] visit,int[] num,int depth,int start) {
+		if(depth == num.length) {
+			for(int i = 0; i < depth; i++) {
+				sb.append(num[i]).append(" ");
+			}
+			sb.append("\n");
+			return ; 
 		}
 		
-		for(int i = 0; i < length; i++) {
-			ches[depth] = i;
-			if(checkChes(ches,depth)) {
-				put(ches,depth+1);
+		for(int i = start; i < visit.length; i++) {
+			if(visit[i] == false) {
+				num[depth] = i+1;
+				pick(visit,num,depth+1,i);
 			}
-		}	
-	}
-	
-	public static boolean checkChes(int[] ches,int depth) {
-		for(int i = 0; i < depth; i++) {
-			if(ches[i] == ches[depth]) return false;
-			if(Math.abs(depth-i) == Math.abs(ches[depth] - ches[i])) return false;
- 		}
-		return true;
+		}
 	}
 }
