@@ -1,0 +1,112 @@
+LeetCode No_5 Longest Palindromic Substring
+
+가장 길면서 거꾸로해도 똑같은 subString 찾는 문제
+
+
+처음 생각한 내용은
+
+String을 split으로 나눈 후,
+index를 처음부터 검사해서
+
+똑같은 원소가 1개인 String을 찾고
+그 index까지 문자가 거꾸로했을떄 똑같은지 확인
+
+똑같다면 기존 저장해둔 문자열과 길이를 비교하고 
+길이가 더 길다면 기존 저장해둔 문자열에 그 문자열을 저장한다.
+------------------------------------------------------------
+입력받은 string을 split으로 나눈 후 ==>> String[] sSplit = s.split("");
+
+for(int i = 0; i < s.length() -1 ; i++) {  	==>> index를 처음부터 검사해서
+	String target = sSplit[i];
+	for(int j = i+1; j < s.length(); j++){
+		if(target == sSplit[j]){ 	==>> 똑같은 원소가 1개인 String을 찾고
+			int end = j;			
+			while(start < end ){		==>>  index까지 문자가 거꾸로했을떄 똑같은지 확인
+				if(sSplit[start++] != sSplitp[end--]){
+					break;
+				}
+			}
+			if(start >= end){
+				if(!(subString.length() >= (j - i + 1))){
+					subString = s.splice(i,j+1);
+				}
+			}
+		}
+	}
+}						
+------------------------------------------------------------
+완성본 >>
+
+public String longestPalindrome(String s) {
+		String[] sSplit = s.split("");
+		int start = 0;
+		String subString = sSplit[0];
+		
+		for(int i = 0; i < s.length() -1 ; i++) {  
+			String target = sSplit[i];
+			for(int j = i+1; j < s.length(); j++){
+				if(target == sSplit[j]){ 	
+					int end = j;			
+					while(start < end ){		
+						if(sSplit[start++] != sSplit[end--]){
+							break;
+						}
+					}
+					if(start >= end){
+						if(!(subString.length() >= (j - i + 1))){
+							subString = s.substring(i,j+1);
+						}
+					}
+				}
+			}
+		}
+		
+		return subString;
+						
+    }
+------------------------------------------------------------
+
+우선 여기서 안된 이유,
+문자열 비교할때
+
+target == sSplit[j] 가 안됨
+따라서, target.compareTo(sSplit[j]) == 0 으로 해야함
+또한, sSplit[start++] != sSplit[end--]또한 안됨
+
+------------------------------------------------------------
+
+결국,
+
+public static String longestPalindrome(String s) {
+		String[] sSplit = s.split("");
+		String subString = sSplit[0];
+		
+		
+		for(int i = 0; i < s.length() -1 ; i++) {  
+			String target = sSplit[i];
+			for(int j = i+1; j < s.length(); j++){
+				boolean sameString = true;
+				if(target.compareTo(sSplit[j]) == 0){ 	
+					int start = i;
+					int end = j;			
+					while(start < end ){		
+						if(sSplit[start++].compareTo(sSplit[end--])!=0){
+							sameString = false;
+							break;
+						}
+					}
+					if(sameString && (start >= end)){
+						if(!(subString.length() >= (j - i + 1))){
+							subString = s.substring(i,j+1);
+						}
+					}
+				}
+			}
+		}
+		return subString;						
+    }
+------------------------------------------------------------
+
+하지만, Time Limit Exceeded >> 시간이 오래걸린다 >> 2중for문을 사용했기 떄문에..
+
+
