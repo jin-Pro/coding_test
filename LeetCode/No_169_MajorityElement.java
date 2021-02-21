@@ -44,5 +44,6 @@ public class No_169_MajorityElement {
         }
         
         return target;
+
 	}
 }
