@@ -8,7 +8,7 @@ public class No_09 {
 
 	static Long[][] cache;
 	static long answer = 0 ;
-	
+	static int mod = 1000000000;
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		
@@ -22,7 +22,7 @@ public class No_09 {
 			answer += calculator(num,i);
 		}
 		
-		System.out.println(answer % 1000000000);
+		System.out.println(answer % mod);
 	}
 
 	private static long calculator(int num,int value) {
@@ -33,6 +33,6 @@ public class No_09 {
 			else cache[num][value] = calculator(num-1,value-1) + calculator(num-1,value+1);
 		}
 		
-		return cache[num][value];
+		return cache[num][value] % mod;
 	}
 }
