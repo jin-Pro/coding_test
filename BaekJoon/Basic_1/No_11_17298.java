@@ -3,42 +3,51 @@ package Basic_1;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Stack;
 
 public class No_11_17298 {
 	static String[] inputSplit ;
+	static Stack<Integer> list = new Stack<Integer>();
+	static int[] answer;
 	static StringBuilder sb = new StringBuilder();
 	
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		
 		br.readLine();
+		
 		String input = br.readLine();
 		inputSplit = input.split(" ");
+		answer = new int[inputSplit.length];
 		
-		solve(0,1);
+		for(int i = 0; i < inputSplit.length; i++) {
+			answer[i] = Integer.parseInt(inputSplit[i]);
+		}
+		
+		solve();
 		
 		System.out.println(sb);
 	}
 
-	private static void solve(int i, int j) {
+	private static void solve() {
 		// TODO Auto-generated method stub
-		if(i == inputSplit.length-1) {
-			sb.append(-1);
-			return ;
-		}
-		if(j == inputSplit.length) {
-			sb.append(-1).append(" ");
-			solve(i+1,i+2);
-			return;
-		}
-		int target = Integer.parseInt(inputSplit[i]);
-		int compare = Integer.parseInt(inputSplit[j]);
 		
-		if(target < compare) {
-			sb.append(compare).append(" ");
-			solve(i+1,i+2);
-		}else {
-			solve(i,j+1);
+		for(int i = 0; i < answer.length; i++) {
+			
+			while(!list.empty() && answer[list.peek()] < answer[i]) {
+				answer[list.pop()] = answer[i];
+			}
+			
+			list.push(i);
+		}
+		
+		while(!list.empty()) {
+			answer[list.pop()] = -1;
+		}
+		
+		for(int i = 0; i < answer.length; i++) {
+			sb.append(answer[i]).append(" ");
 		}
 	}
 }
+

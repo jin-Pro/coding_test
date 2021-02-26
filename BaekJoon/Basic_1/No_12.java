@@ -3,14 +3,11 @@ package Basic_1;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Stack;
 
-public class No_12_17299 {
+public class No_12 {
 	static StringBuilder sb = new StringBuilder();
 	static int[] num ;
 	static int[] count;
-	static Stack<Integer> list = new Stack<Integer>();
-	static int[] answer;
 	
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -21,8 +18,6 @@ public class No_12_17299 {
 		String[] inputSplit = input.split(" ");
 		
 		num = new int[inputSplit.length];
-		answer = new int[num.length];
-		
 		int max = -1;
 		
 		for(int i = 0; i < inputSplit.length; i++) {
@@ -35,25 +30,26 @@ public class No_12_17299 {
 			count[num[i]] ++;
 		}
 		
-		solve();
+		solve(0,1);
 		
 		System.out.println(sb);
 	}
 	
-	public static void solve() {
-		for(int i = 0; i < num.length; i++) {
-			while(!list.empty() && count[num[list.peek()]] < count[num[i]]) {
-				answer[list.pop()] = num[i];
-			}
-			list.push(i);
+	public static void solve(int i, int j) {
+		if(i == num.length - 1) {
+			sb.append(-1);
+			return;
 		}
-		
-		while(!list.empty()) {
-			answer[list.pop()] = -1;
+		if(j == num.length) {
+			sb.append(-1).append(" ");
+			solve(i+1,i+2);
+			return;
 		}
-		
-		for(int i = 0; i < answer.length; i++) {
-			sb.append(answer[i]).append(" ");
+		if(count[num[i]] < count[num[j]]) {
+			sb.append(num[j]).append(" ");
+			solve(i+1,i+2);
+		}else {
+			solve(i,j+1);
 		}
 	}
 }
