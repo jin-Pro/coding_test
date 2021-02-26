@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class No_3_9012 {
+public class No_03_9012 {
 	static StringBuilder sb = new StringBuilder();
 	
 	public static void main(String[] args) throws NumberFormatException, IOException {
@@ -25,25 +25,27 @@ public class No_3_9012 {
 	public static void print(String[] input) {
 		int left = 0;
 		
-		for(int j = 0; j < input.length; j++) {
-			if(input[j].compareTo("(") == 0) {
+		for(int i = 0; i < input.length; i++) {
+			if(input[i].compareTo("(") == 0) {
 				left ++;
 			}
-			if(input[j].compareTo(")") == 0) {
+			if(input[i].compareTo(")") == 0) {
 				left --;
 			}
 			if(left < 0 ) {
-				sb.append("No").append("\n");
+				sb.append("NO").append("\n");
 				return;
 			}
 		}
 		
 		if(left == 0) {
-			sb.append("Yes").append("\n");
+			sb.append("YES").append("\n");
+			return ;
 			
-		}else {
-			sb.append("No").append("\n");
 		}
+		
+		sb.append("NO").append("\n");
+
 		return;
 	}
 }
