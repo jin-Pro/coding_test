@@ -1,7 +1,9 @@
 def gameOver(x,y,snake):
+	#종료 환경 설정
     if x == -1 or y == -1 or x == matrix or y == matrix:
         return True
 
+	#snake안에 x,y가 존재할때
     if [x,y] in snake:
         return True    
     
