@@ -10,6 +10,8 @@ def gameOver(x,y,snake):
     return False
 
 def catchApple(x,y,apple):
+	#사과가 존재하는곳에 위치한다면
+	#사과를 먹었으므로 false해두기 
 
     if apple[x][y]:
         apple[x][y] = False
