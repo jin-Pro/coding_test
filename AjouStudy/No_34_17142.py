@@ -18,7 +18,7 @@ def bfs(listA, waitingVirus):
     q = deque()
 
     for i in waitingVirus:
-        a, b, x = i
+        a, b = i
         listA[a][b] = '**'
         q.append(i)
 
@@ -27,31 +27,25 @@ def bfs(listA, waitingVirus):
 
     visit2 = [[True] * N for _ in range(N)]
 
+    dis = 1
+
     while q:
+        for _ in range(len(q)):
+            x, y = q.popleft()
 
-        x, y, value = q.popleft()
+            visit2[x][y] = False
 
-        if listA[x][y] == '**':
-            dis = 1
+            for i in range(4):
+                nx = x + dx[i]
+                ny = y + dy[i]
 
-        elif listA[x][y] == '*':
-            dis = value+1
-
-        else:
-            dis = listA[x][y] + 1
-
-        visit2[x][y] = False
-
-        for i in range(4):
-            nx = x + dx[i]
-            ny = y + dy[i]
-
-            if 0 <= nx < N and 0 <= ny < N and visit2[nx][ny] and not listA[nx][ny] == '-' and not listA[nx][ny] == '**':
-                if listA[nx][ny] == '*':
-                    q.append([nx, ny, dis])
-                elif listA[nx][ny] > dis:
-                    listA[nx][ny] = dis
-                    q.append([nx, ny, False])
+                if 0 <= nx < N and 0 <= ny < N and visit2[nx][ny] and not listA[nx][ny] == '-' and not listA[nx][ny] == '**':
+                    if listA[nx][ny] == '*':
+                        q.append([nx, ny])
+                    elif listA[nx][ny] > dis:
+                        listA[nx][ny] = dis
+                        q.append([nx, ny])
+        dis += 1
 
     return findMax(listA)
 
@@ -69,7 +63,7 @@ for i in range(N):
     for j in range(N):
         if lab[i][j] == 2:
             lab[i][j] = '*'
-            location.append([i, j, 0])
+            location.append([i, j])
         if lab[i][j] == 1:
             lab[i][j] = '-'
         if lab[i][j] == 0:
