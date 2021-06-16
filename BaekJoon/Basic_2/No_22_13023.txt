@@ -1,0 +1,43 @@
+import sys
+
+
+def dfs(targets, depth):
+    if depth == 4:
+        return True
+
+    check = False
+
+    for i in targets:
+        if visit[i]:
+            visit[i] = False
+            check = dfs(node[i], depth+1)
+            visit[i] = True
+
+            if check:
+                break
+    return check
+
+
+N, M = map(int, input().split())
+
+node = [[] for _ in range(N)]
+visit = [True] * N
+
+for i in range(M):
+    a, b = map(int, input().split())
+    node[a].append(b)
+    node[b].append(a)
+
+answer = False
+
+for i in range(N):
+    visit[i] = False
+    answer = dfs(node[i], 0)
+    visit[i] = True
+    if answer:
+        break
+
+if answer:
+    print(1)
+else:
+    print(0)
