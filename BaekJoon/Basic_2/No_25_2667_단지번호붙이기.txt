@@ -1,0 +1,49 @@
+import sys
+from collections import deque
+
+
+def search(x, y):
+    global cnt
+
+    q = deque()
+    q.append((x, y))
+
+    dx = [-1, 0, 1, 0]
+    dy = [0, -1, 0, 1]
+
+    while q:
+        targetX, targetY = q.popleft()
+
+        for i in range(4):
+            cx = targetX + dx[i]
+            cy = targetY + dy[i]
+            if 0 <= cx < N and 0 <= cy < N and visit[cx][cy] and board[cx][cy] == 1:
+                q.append((cx, cy))
+                visit[cx][cy] = False
+                land[cnt] = land[cnt] + 1
+
+
+input = sys.stdin.readline
+
+N = int(input())
+
+board = [list(map(int, input().rstrip())) for _ in range(N)]
+visit = [[True for _ in range(N)] for _ in range(N)]
+land = []
+cnt = 0
+
+for i in range(N):
+    for j in range(N):
+        if visit[i][j] and board[i][j] == 1:
+            visit[i][j] = False
+            land.append(1)
+            search(i, j)
+            cnt += 1
+
+land.sort()
+num = len(land)
+
+print(num)
+
+for i in land:
+    print(i)
