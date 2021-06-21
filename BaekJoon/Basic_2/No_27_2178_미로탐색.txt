@@ -1,0 +1,46 @@
+import sys
+from collections import deque
+
+input = sys.stdin.readline
+
+N, M = map(int, input().split())
+
+board = [list(map(int, input().rstrip())) for _ in range(N)]
+visit = [[True] * M for _ in range(N)]
+
+q = deque()
+q.append((0, 0))
+visit[0][0] = False
+
+cnt = 1
+flag = True
+
+dx = [-1, 0, 1, 0]
+dy = [0, 1, 0, -1]
+while True:
+    if not flag:
+        break
+
+    q2 = deque()
+    cnt += 1
+
+    while q:
+        x, y = q.popleft()
+
+        if not flag:
+            break
+
+        for i in range(4):
+            cx = x + dx[i]
+            cy = y + dy[i]
+
+            if 0 <= cx < N and 0 <= cy < M and visit[cx][cy] and board[cx][cy]:
+                visit[cx][cy] = False
+                q2.appendleft((cx, cy))
+
+                if cx == N-1 and cy == M-1:
+                    flag = False
+
+    q = q2
+
+print(cnt)
