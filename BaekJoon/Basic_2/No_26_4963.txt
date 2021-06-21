@@ -1,0 +1,52 @@
+import sys
+from collections import deque
+
+
+def bfs(x, y):
+    q = deque()
+    q.append((x, y))
+
+    # 왼 위 오 아래 왼위 왼아래 오위 오아래
+    dx = [-1, 0, 1, 0, -1, -1, 1, 1]
+    dy = [0, -1, 0, 1, -1, 1, -1, 1]
+
+    while q:
+        a, b = q.popleft()
+
+        for i in range(8):
+            cx = a + dx[i]
+            cy = b + dy[i]
+
+            if 0 <= cx < h and 0 <= cy < w and visit[cx][cy] and board[cx][cy]:
+                visit[cx][cy] = False
+                q.append((cx, cy))
+
+
+input = sys.stdin.readline
+
+while True:
+    n = input()
+    w, h = map(int, n.split())
+    if w == 0 and h == 0:
+        break
+    
+    board = [list(map(int, input().split())) for _ in range(h)]
+    visit = [[True] * w for _ in range(h)]
+
+    for i in range(h):
+        for j in range(w):
+            if board[i][j]:
+                visit[i][j] = True
+            else:
+                visit[i][j] = False
+
+    cnt = 0
+
+    for i in range(h):
+        for j in range(w):
+            if visit[i][j]:
+                visit[i][j] = False
+                cnt += 1
+                bfs(i, j)
+
+    print(cnt)
