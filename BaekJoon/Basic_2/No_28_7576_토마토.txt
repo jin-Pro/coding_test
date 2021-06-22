@@ -1,0 +1,43 @@
+import sys
+from collections import deque
+
+input = sys.stdin.readline
+
+N, M = map(int, input().split())
+
+tomato = [list(map(int, input().split())) for _ in range(M)]
+visit = [[True] * N for _ in range(M)]
+
+q = deque()
+
+for i in range(M):
+    for j in range(N):
+        if tomato[i][j] == 1:
+            q.append((i, j))
+dx = [-1, 0, 1, 0]
+dy = [0, 1, 0, -1]
+
+while q:
+    x, y = q.popleft()
+
+    for i in range(4):
+        cx = x + dx[i]
+        cy = y + dy[i]
+
+        if 0 <= cx < M and 0 <= cy < N and tomato[cx][cy] != -1 and tomato[cx][cy] != 1:
+            if (tomato[cx][cy] == 0 and visit[cx][cy]) or tomato[cx][cy]-1 > tomato[x][y]:
+                tomato[cx][cy] = tomato[x][y] + 1
+                visit[cx][cy] = False
+                q.append((cx, cy))
+
+flag = True
+
+for i in range(M):
+    for j in range(N):
+        if tomato[i][j] == 0:
+            flag = False
+
+if flag:
+    print(tomato[x][y]-1)
+else:
+    print(-1)
