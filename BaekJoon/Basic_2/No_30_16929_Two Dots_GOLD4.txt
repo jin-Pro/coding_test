@@ -1,0 +1,57 @@
+import sys
+from collections import deque
+
+
+def bfs(fx, fy):
+    q = deque()
+    q.append((fx, fy))
+
+    target = board[fx][fy]
+
+    dx = [1, 0, -1, 0]
+    dy = [0, 1, 0, -1]
+
+    while q:
+        a, b = q.popleft()
+
+        for i in range(4):
+            cx = a + dx[i]
+            cy = b + dy[i]
+
+            if 0 <= cx < x and 0 <= cy < y and board[cx][cy] == target:
+                if visit[cx][cy]:
+                    board2[cx][cy] = board2[a][b] + 1
+                    visit[cx][cy] = False
+                    q.append((cx, cy))
+
+                elif board2[cx][cy] - 1 == board2[a][b]:
+                    return True
+    return False
+
+
+input = sys.stdin.readline
+
+x, y = map(int, input().split())
+
+board = [list(input().rstrip()) for _ in range(x)]
+board2 = [[0] * y for _ in range(x)]
+
+visit = [[True] * y for _ in range(x)]
+
+flag = False
+
+for i in range(x):
+    for j in range(y):
+        if visit[i][j]:
+            visit[i][j] = False
+            answer = bfs(i, j)
+            if answer:
+                flag = True
+                break
+    if flag:
+        break
+
+if flag:
+    print("Yes")
+else:
+    print("No")
