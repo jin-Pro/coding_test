@@ -1,0 +1,49 @@
+import sys
+from collections import deque
+
+input = sys.stdin.readline
+
+testCase = int(input())
+
+dx = [-1, -2, -2, -1, 1, 2, 2, 1]
+dy = [-2, -1, 1, 2, -2, -1, 1, 2]
+
+
+for _ in range(testCase):
+    size = int(input())
+
+    board = [[0] * size for _ in range(size)]
+    visit = [[True] * size for _ in range(size)]
+
+    currentX, currentY = map(int, input().split())
+
+    arriveX, arriveY = map(int, input().split())
+
+    if currentX == arriveX and currentY == arriveY:
+        print(0)
+        continue
+
+    q = deque()
+    q.append((currentX, currentY))
+    visit[currentX][currentY] = False
+
+    flag = True
+
+    while q:
+        if not flag:
+            break
+        x, y = q.popleft()
+
+        for i in range(8):
+            cx = x + dx[i]
+            cy = y + dy[i]
+
+            if 0 <= cx < size and 0 <= cy < size and visit[cx][cy]:
+                board[cx][cy] = board[x][y] + 1
+                visit[cx][cy] = False
+                q.append((cx, cy))
+
+                if cx == arriveX and cy == arriveY:
+                    flag = False
+                    break
+    print(board[arriveX][arriveY])
