@@ -1,0 +1,74 @@
+import sys
+from collections import deque
+
+
+def findCircle(cur, prev, depth):
+    if not visit[cur] and depth - board[cur] > 2:
+        return cur
+
+    for i in node[cur]:
+        if visit[i]:
+            visit[i] = False
+            board[i] = depth
+        if not i == prev:
+            answer = findCircle(i, cur, depth+1)
+
+            if answer:
+                return answer
+
+    return False
+
+
+input = sys.stdin.readline
+
+num = int(input())
+
+node = [[] for _ in range(num+1)]
+board = [0] * (num+1)
+visit = [True] * (num+1)
+visit2 = [True] * (num+1)
+
+for _ in range(num):
+    a, b = map(int, input().split())
+    node[a].append(b)
+    node[b].append(a)
+
+for i in node:
+    i.sort()
+visit[1] = False
+board[1] = 1
+
+start = findCircle(1, 0, board[1]+1)
+
+circle = []
+vertex = []
+q = deque()
+
+circle.append(start)
+q.append(start)
+
+for i in range(num+1):
+    if board[i] > board[start]:
+        circle.append(i)
+        q.append(i)
+
+for i in circle:
+    board[i] = 0
+    visit2[i] = False
+
+while q:
+    target = q.popleft()
+
+    visit2[target] = False
+
+    for i in node[target]:
+        if visit2[i]:
+            visit2[i] = False
+            board[i] = board[target]+1
+            q.append(i)
+
+for i in circle:
+    board[i] = 0
+
+for i in range(1, num+1):
+    print(board[i], end=" ")
