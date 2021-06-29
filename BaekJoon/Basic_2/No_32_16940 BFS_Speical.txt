@@ -1,0 +1,54 @@
+import sys
+from collections import deque
+
+
+def bfs(start):
+    q = deque()
+    q.append(start)
+    visit[start] = False
+    target = 1
+
+    while q:
+        x = q.popleft()
+
+        while True:
+            if target == N:
+                return True
+
+            if node[x]:
+                comp = answer[target]
+
+                if comp in node[x]:
+                    if visit[comp]:
+                        q.append(comp)
+                        visit[comp] = False
+                        target += 1
+                        node[x].remove(comp)
+                        node[comp].remove(x)
+                else:
+                    return False
+            else:
+                break
+    return True
+
+
+input = sys.stdin.readline
+
+N = int(input())
+
+node = [[] for _ in range(N+1)]
+visit = [True] * (N+1)
+
+for _ in range(N-1):
+    a, b = map(int, input().split())
+    node[a].append(b)
+    node[b].append(a)
+
+answer = list(map(int, input().split()))
+
+ans = bfs(1)
+
+if ans:
+    print(1)
+else:
+    print(0)
