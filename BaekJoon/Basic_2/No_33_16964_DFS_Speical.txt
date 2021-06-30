@@ -1,0 +1,51 @@
+import sys
+
+
+def dfs(start, depth):
+    if depth + 1 == N:
+        return True
+
+    while True:
+        if not node[start]:
+            return 1
+
+        else:
+            for i in node[start]:
+                if i == answer[depth] and visit[i]:
+                    visit[i] = False
+                    node[start].remove(i)
+                    node[i].remove(start)
+                    ans = dfs(i, depth+1)
+
+                    if ans == True:
+                        return True
+                    elif ans == False:
+                        return False
+                    elif ans == 1:
+                        break
+            return False
+
+
+input = sys.stdin.readline
+
+N = int(input())
+
+node = [[] for _ in range(N+1)]
+visit = [True] * (N+1)
+
+for _ in range(N-1):
+    a, b = map(int, input().split())
+    node[a].append(b)
+    node[b].append(a)
+
+answer = list(map(int, input().split()))
+
+if not answer[0] == 1:
+    print(0)
+else:
+    ans = dfs(1, 1)
+
+    if ans:
+        print(1)
+    else:
+        print(0)
