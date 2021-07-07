@@ -1,0 +1,41 @@
+import sys
+
+
+def dps(start):
+
+    for i in node[start]:
+        next, length = i
+        if visit[next]:
+            visit[next] = False
+            dis[next] = dis[start] + length
+            dps(next)
+
+
+input = sys.stdin.readline
+
+N = int(input())
+
+node = [[] for _ in range(N+1)]
+visit = [True] * (N+1)
+dis = [0] * (N+1)
+
+for _ in range(N):
+    value = list(map(int, input().rstrip().split(' ')))
+
+    index = 1
+    while True:
+        if value[index] == -1:
+            break
+        node[value[0]].append((value[index], value[index+1]))
+
+        index += 2
+dps(1)
+
+root = dis.index(max(dis))
+
+dis = [0] * (N+1)
+visit = [True] * (N+1)
+
+dps(root)
+
+print(max(dis))
